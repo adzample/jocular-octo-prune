@@ -23,20 +23,16 @@ angular.module('jocularOctoPruneApp')
                       len32 = len >> 2,
                       a8 = new Uint8Array( len ),
                       a32 = new Uint32Array( a8.buffer, 0, len32 );
-
                 for( var i=0, j=0; i < len32; i++ ) {
                     a32[i] = bin.charCodeAt(j++)  |
                         bin.charCodeAt(j++) << 8  |
                         bin.charCodeAt(j++) << 16 |
                         bin.charCodeAt(j++) << 24;
                 }
-
-                let tailLength = len & 3;
-
+                var tailLength = len & 3;
                 while( tailLength-- ) {
                     a8[ j ] = bin.charCodeAt(j++);
                 }
-
                 callback( new Blob( [a8], {'type': type || 'image/png'} ) );
             }
         });
