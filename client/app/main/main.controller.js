@@ -14,6 +14,7 @@ angular.module('jocularOctoPruneApp')
     $scope.clickedSupport = clickedSupport;
     $scope.confirmDonation = confirmDonation;
     $scope.clickedUpload = clickedUpload;
+    $scope.toggledClass = false;
     // $scope.makeBlue2 = makeBlue2;
 
     $http.get('/api/things').success(function(awesomeThings) {
@@ -115,20 +116,9 @@ angular.module('jocularOctoPruneApp')
 
     function confirmDonation(){
       $scope.notConfirmed = false
-      $timeout(function() {$scope.clickedBegin=false; $scope.completedDonation=true;}, 1500)
+      $timeout(function() {$scope.toggledClass=true}, 500)
+      $timeout(function() {$scope.clickedBegin=false; $scope.completedDonation=true;}, 2500)
     }
-
-
-    setTimeout(function () {
-            $(".check").attr("class", "check check-complete");
-            $(".fill").attr("class", "fill fill-complete");
-        }, 5000);
-
-        setTimeout(function () {
-            $(".check").attr("class", "check check-complete success");
-            $(".fill").attr("class", "fill fill-complete success");
-            $(".path").attr("class", "path path-complete");
-        }, 6000);
 
     function clickedUpload(){
       $scope.clickedUploaded = true;
