@@ -1,10 +1,19 @@
 'use strict';
 
 angular.module('jocularOctoPruneApp')
-  .controller('MainCtrl', function ($scope, $http) {
+  .controller('MainCtrl', function ($scope, $http, $timeout, $window) {
     $scope.awesomeThings = [];
     $scope.makeBlue = makeBlue;
     $scope.clickedBegin = false;
+    $scope.notConfirmed = true;
+    $scope.readyToBlue = false;
+    $scope.clickedUploaded = false;
+    $scope.completedDonation = false;
+    $scope.counter = 5;
+    $scope.step = 'step1'
+    $scope.clickedSupport = clickedSupport;
+    $scope.confirmDonation = confirmDonation;
+    $scope.clickedUpload = clickedUpload;
     // $scope.makeBlue2 = makeBlue2;
 
     $http.get('/api/things').success(function(awesomeThings) {
@@ -38,6 +47,19 @@ angular.module('jocularOctoPruneApp')
         });
     }
 
+    $scope.countdown = function() {
+      if($scope.counter>0){
+        var stopped = $timeout(function() {
+           console.log($scope.counter);
+         $scope.counter--;   
+         $scope.countdown();   
+        }, 1000);
+      }else{
+        $window.open('https://www.beyondblue.org.au/get-involved/make-a-donation/step-1-make-a-donation', '_blank');
+        $scope.step = 'step2'
+      }
+    };
+
 
     function handleImage(e){
         var reader = new FileReader();
@@ -50,7 +72,7 @@ angular.module('jocularOctoPruneApp')
             }
             img.src = event.target.result;
         }
-        reader.readAsDataURL(e.target.files[0]);     
+        reader.readAsDataURL(e.target.files[0]);             
     }
 
 
@@ -75,6 +97,7 @@ angular.module('jocularOctoPruneApp')
           // this.toBase64(); 
           canvas.toBlob(function(blob) {
             saveAs(blob, "image.jpg");
+            $timeout(function() {$scope.completedDonation=false;}, 1500)
           });         
         });
         
@@ -85,8 +108,30 @@ angular.module('jocularOctoPruneApp')
     // });
     }
 
+    function clickedSupport() {
+      $scope.clickedBegin = true;
+      $scope.countdown();
+    }
+
+    function confirmDonation(){
+      $scope.notConfirmed = false
+      $timeout(function() {$scope.clickedBegin=false; $scope.completedDonation=true;}, 1500)
+    }
 
 
-    
+    setTimeout(function () {
+            $(".check").attr("class", "check check-complete");
+            $(".fill").attr("class", "fill fill-complete");
+        }, 5000);
+
+        setTimeout(function () {
+            $(".check").attr("class", "check check-complete success");
+            $(".fill").attr("class", "fill fill-complete success");
+            $(".path").attr("class", "path path-complete");
+        }, 6000);
+
+    function clickedUpload(){
+      $scope.clickedUploaded = true;
+    }
 
   });

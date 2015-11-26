@@ -7,12 +7,37 @@
   </div>
 </header> -->
 <challenge-modal show='clickedBegin' height="420px" width="640px">
-  <div class="row1-div">
-    
+  <div ng-show="step === 'step1'">
+    <div class="row1-div">
+      Step 1.<br> Donate any Amount
+    </div>
+    <div class="row2-div">
+      <i class="fa-li fa fa-spinner fa-spin"></i>
+      <p>You will be redirected to Beyond Blue in</p>
+      <p>{{counter}}</p> 
+    </div>
   </div>
-  <div class="row2-div">
-    
+  <div ng-show="step === 'step2'">
+    <div class="row1-div">
+      Step 2.<br> Confirm Your Donation
+    </div>
+    <div class="row2-div">
+      <p ng-show="notConfirmed">After this step you will be able to upload your image</p>
+      <button ng-show="notConfirmed" class="btn btn-success"ng-click="confirmDonation()">Confirm Your Donation</button> 
+      <div class="checkmark" ng-show="!notConfirmed">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" x="0px" y="0px"
+            viewBox="0, 0, 100, 100" id="checkmark">
+            <g transform="">
+              <circle class="path" fill="none" stroke="#7DB0D5" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="44"/>
+                <circle class="fill" fill="none" stroke="#7DB0D5" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="44"/>
+              <polyline class="check" fill="none" stroke="#7DB0D5" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" 
+                    points="70,35 45,65 30,52  "/>
+            </g>
+        </svg>
+      </div>
+    </div>
   </div>
+
   <div class="button-row-div">
     
   </div>
@@ -24,20 +49,23 @@
 <div class="bottom-border">
   
 </div>
-<div class="first-row-full">
+
+<div class="first-row-full" ng-show="!completedDonation">
   <img src="assets/images/beyondblue.png" class="img-responsive example-front" alt="">
   <p>Dontate &amp; go blue to raise awareness for Beyond Blue</p>
-  <a ng-click="clickedBegin=true" style="text-decoration:none;"><div class="main-video-button">SUPPORT NOW</div></a>
+  <a ng-click="clickedSupport()" style="text-decoration:none;"><div class="main-video-button">SUPPORT NOW</div></a>
 </div>
 
-
-<a href="https://www.beyondblue.org.au/get-involved/make-a-donation/step-1-make-a-donation" target="_blank"><button class="btn btn-success"></button></a>
-
-<label>Test Your Image File HERE:</label><br/>
-<input type="file" id="imageLoader" name="imageLoader"/>
-<button class="btn btn-success"ng-click="makeBlue()">Click here after upload</button>
-
-<canvas id="imageCanvas"></canvas>
+<div class="first-row-upload" ng-show="completedDonation">
+  <p>Step 3.</p>
+  <p>Upload Your image, download &amp; share to facebook!</p>
+  <span class="btn btn-default btn-file" ng-show="!clickedUploaded">
+    Click to Upload<input type="file" id="imageLoader" name="imageLoader" ng-click="clickedUpload()"/>
+  </span>
+  <button ng-show="clickedUploaded" class="btn btn-success button-front-2"ng-click="makeBlue()">Now Click Here to Make Blue!</button>
+  <canvas id="imageCanvas"></canvas>
+  <!-- <input class="main-video-button" type="file" id="imageLoader" name="imageLoader"/> -->
+</div>
 
 
 <!-- <div class="container">
